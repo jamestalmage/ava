@@ -48,7 +48,7 @@ test('createPlugin - calls the function with options', function (t) {
 	});
 });
 
-test('analyze - handles spaces', function (t) {
+test('parse - handles spaces', function (t) {
 	var expected = {
 		object: 't',
 		member: 'equal',
@@ -67,24 +67,24 @@ test('analyze - handles spaces', function (t) {
 			}
 		]
 	};
-	t.same(support.analyze('t.equal(actual,expected,[message])'), expected, 'no spaces');
-	t.same(support.analyze('t.equal(actual, expected, [message])'), expected, 'standard spacing');
-	t.same(support.analyze('  t  .  equal  (  actual  ,  expected  ,  [  message  ]  )  '), expected, 'lots of spaces');
+	t.same(support.parse('t.equal(actual,expected,[message])'), expected, 'no spaces');
+	t.same(support.parse('t.equal(actual, expected, [message])'), expected, 'standard spacing');
+	t.same(support.parse('  t  .  equal  (  actual  ,  expected  ,  [  message  ]  )  '), expected, 'lots of spaces');
 	t.end();
 });
 
-test('analyze - handles no args', function (t) {
+test('parse - handles no args', function (t) {
 	var expected = {
 		object: 'a',
 		member: 'fail',
 		args: []
 	};
-	t.same(support.analyze('a.fail()'), expected, 'no spaces');
-	t.same(support.analyze('  a  .  fail  (  )  '), expected, 'lots of spaces');
+	t.same(support.parse('a.fail()'), expected, 'no spaces');
+	t.same(support.parse('  a  .  fail  (  )  '), expected, 'lots of spaces');
 	t.end();
 });
 
-test('analyze - handles only optional args', function (t) {
+test('parse - handles only optional args', function (t) {
 	var expected1 = {
 		object: 'assert',
 		member: 'baz',
@@ -111,9 +111,9 @@ test('analyze - handles only optional args', function (t) {
 		]
 	};
 
-	t.same(support.analyze('assert.baz([foo])'), expected1, '1 arg - no spaces');
-	t.same(support.analyze(' assert . baz ( [ foo ] ) '), expected1, '1 arg - lots of spaces');
-	t.same(support.analyze('assert.baz([foo],[bar])'), expected2, '2 args - no spaces');
-	t.same(support.analyze(' assert . baz ( [ foo ] , [ bar ] ) '), expected2, '2 args - lots of spaces');
+	t.same(support.parse('assert.baz([foo])'), expected1, '1 arg - no spaces');
+	t.same(support.parse(' assert . baz ( [ foo ] ) '), expected1, '1 arg - lots of spaces');
+	t.same(support.parse('assert.baz([foo],[bar])'), expected2, '2 args - no spaces');
+	t.same(support.parse(' assert . baz ( [ foo ] , [ bar ] ) '), expected2, '2 args - lots of spaces');
 	t.end();
 });
