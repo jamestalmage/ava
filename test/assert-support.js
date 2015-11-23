@@ -117,3 +117,47 @@ test('parse - handles only optional args', function (t) {
 	t.same(support.parse(' assert . baz ( [ foo ] , [ bar ] ) '), expected2, '2 args - lots of spaces');
 	t.end();
 });
+
+test('generate', function (t) {
+	var parsed = {
+		object: 't',
+		member: 'equal',
+		args: [
+			{
+				name: 'actual',
+				optional: false
+			},
+			{
+				name: 'expected',
+				optional: false
+			},
+			{
+				name: 'message',
+				optional: true
+			}
+		]
+	};
+
+	t.equal(support.generate(parsed), 't.equal(actual,expected,[message])');
+	t.end();
+});
+
+test('parse->generate round trip', function (t) {
+	[
+		't.ok(value, [message])',
+		't.notOk(value, [message])',
+		't.true(value, [message])',
+		't.false(value, [message])',
+		't.is(value, expected, [message])',
+		't.not(value, expected, [message])',
+		't.same(value, expected, [message])',
+		't.notSame(value, expected, [message])',
+		't.regexTest(regex, contents, [message])'
+	].forEach(function (pattern) {
+		t.equal(
+			support.generate(support.parse(pattern)),
+			pattern.replace(/\s+/g, '')
+		);
+	});
+	t.end();
+});
