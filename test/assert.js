@@ -1,6 +1,6 @@
 'use strict';
 var test = require('tap').test;
-var assert = require('../lib/assert');
+var assert = require('../lib/default-assert');
 
 test('.pass()', function (t) {
 	t.doesNotThrow(function () {

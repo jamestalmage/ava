@@ -121,7 +121,7 @@ test('power-assert support', function (t) {
 		// t.ok(a === 'bar')
 		//      |
 		//      "foo"
-		t.true((/t\.ok\(a === 'bar'\)\s*\n\s+\|\s*\n\s+"foo"/m).test(stderr));
+		t.match(stderr, /t\.ok\(a === 'bar'\)\s*\n\s+\|\s*\n\s+"foo"/m);
 	});
 });
 
